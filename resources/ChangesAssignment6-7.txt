@@ -1,0 +1,53 @@
+Changes to code from assignment 6-7 (Doesn't include new implementations)
+
+Model:
+
+1. Changes to Motion/MotionModel
+    - Motions now hold two key frames as parameters, using them to determine a shape's properties
+    at a given time
+    - The motions apply method now is given a time, and returns a Shape who's animation is applied
+    to the given time
+    - The above change means that the model is now getting shape state at a given time directly from
+    the initial and final shapes of the motion's key frames, only using the given shape as a
+    reference instead of using mutation on the given shape
+
+2. Changes to Animation/AnimationModel
+    - Removed time and state from the model, so that mutation to the shapes with respect to time is
+    no longer relevant within the model
+    - tick() method is now getShapes(int time) method, which gets the shape states at a given time
+    opposed to mutating the local shapes
+    - The previous getShapes() method, and restart() and getAnimationState() methods were removed
+    - The way of representing shapes and motions previously is not used to represent shapes and
+    key frames, such that a motion takes in two key frames
+    - Methods for adding and removing key frames were implemented
+    - Added an additional method called getShapes() that returns all shapes in the animation
+    - Added a method called 'overlap' that checks if a key frame's time is the same as a key frame
+    in a list, corresponding to a shape's key frames
+    - Added a method called 'makeCopy' that returns a new instance of this animation
+
+3. Class KeyFrame was added to represent a shape's properties at a given time
+
+
+View:
+
+1. Added Interface ViewEditable
+    -Represents a view that can be edited by a user
+    -Contains methods to edit the current model and animation properties of a view, and aspects of
+    the view itself
+    -Contains a method that displays a given message to the user whenever an edit occurs
+
+2. Changes to VisualView
+    - Added a reference to the JPanel drawing the graphics of the shapes as a private variable and a
+     reference to the ticks per second in this class
+
+3. Changes to AnimationPanel
+    - Added a time and animation state to the JPanel, that is consistent with the swing timer() such
+    that shapes are displayed based on the time
+    - reorganized actionPerformed and paintComponent methods based on changes to the model's
+    getShapes(int time) method
+    - Added an EndOperation that dictates what happens to the animation when it is over, and a
+    method that applies the operation
+
+4. Enum's State and EndOperation are now contained in the controller, as their values are stored
+there whereas references to the values are stored in the AnimationPanel.
+
