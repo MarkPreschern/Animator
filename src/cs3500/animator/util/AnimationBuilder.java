@@ -7,7 +7,7 @@ public interface AnimationBuilder<Doc> {
    * @return the newly constructed document
    */
   Doc build();
-  
+
   /**
    * Specify the bounding box to be used for the animation.
    *
@@ -72,4 +72,14 @@ public interface AnimationBuilder<Doc> {
    */
   AnimationBuilder<Doc> addKeyframe(String name, int t, int x, int y, int w, int h, int r, int g,
                                     int b);
+
+  /**
+   * Sets a degree of rotation for a shape's key frame.
+   *
+   * @param name  The name of the shape (added with {@link AnimationBuilder#declareShape})
+   * @param t     The time for this keyframe
+   * @param theta the degree of rotation for this key frame
+   * @return This {@link AnimationBuilder}
+   */
+  AnimationBuilder<Doc> rotateKeyFrame(String name, int t, double theta);
 }

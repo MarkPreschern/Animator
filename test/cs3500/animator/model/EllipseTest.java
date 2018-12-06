@@ -54,8 +54,8 @@ public class EllipseTest {
   public void testToString() {
     this.init();
 
-    assertEquals("0.0 0.0 0.0 0.0 0.0 0.0 0.0", s1.toString());
-    assertEquals("50.0 20.0 5.0 4.0 1.0 100.0 40.0", s2.toString());
+    assertEquals("0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0", s1.toString());
+    assertEquals("50.0 20.0 5.0 4.0 1.0 100.0 40.0 0.0", s2.toString());
   }
 
   @Rule

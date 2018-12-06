@@ -15,7 +15,7 @@ public class KeyFrame implements KeyFrameModel {
    * @param shape the shape at the frame
    * @throws IllegalArgumentException if the shape is null or time is negative
    */
-  public KeyFrame(double time, Shape shape) throws IllegalArgumentException {
+  public KeyFrame(double time, ShapeModel shape) throws IllegalArgumentException {
     if (shape == null) {
       throw new IllegalArgumentException("Shape can't be null.");
     } else if (time < 0) {

@@ -1,0 +1,11 @@
+<svg width="800" height="800" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="0.000000" cy="0.000000" rx="0.000000" ry="0.000000" fill="rgb(    0,     0,      0)" visibility="visible" >
+        <animate attributeName="cx" attributeType="XML" begin="0.000000s" dur="10.000000s" fill="freeze" from="400.000000" to="530.000000" />
+        <animate attributeName="cy" attributeType="XML" begin="0.000000s" dur="10.000000s" fill="freeze" from="395.000000" to="280.000000" />
+        <animate attributeName="rx" attributeType="XML" begin="0.000000s" dur="10.000000s" fill="freeze" from="20.000000" to="50.000000" />
+        <animate attributeName="ry" attributeType="XML" begin="0.000000s" dur="10.000000s" fill="freeze" from="25.000000" to="10.000000" />
+        <animate attributeName="fill" attributeType="CSS" from="rgb(33,94,248)" to ="rgb( 255,   10,   100)" begin = "0.000000s" dur = "10.000000s" fill = "freeze" />
+        <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0.000000 400.000000 395.000000" to="-720.000000 530.000000 280.000000" dur="10.000000s" repeatCount="0"/>
+
+    </ellipse>
+</svg>

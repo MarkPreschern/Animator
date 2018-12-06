@@ -140,6 +140,42 @@ public final class Animation implements AnimationModel {
       return this;
     }
 
+    @Override
+    public AnimationBuilder<Animation> rotateKeyFrame(String name, int t, double theta) {
+      if (name == null) {
+        throw new IllegalArgumentException("Key can't be null.");
+      } else if (!this.containsKey(name)) {
+        throw new IllegalArgumentException("Shape of the given key doesn't exist.");
+      } else if (!this.hasKeyFrame(name, t)) {
+        throw new IllegalArgumentException("Key frame at time " + t + " doesn't exist.");
+      }
+
+      ArrayList<KeyFrameModel> l = this.keyFrames.get(this.getShape(name));
+      KeyFrameModel k = this.getKeyFrame(name, t);
+      Shape s = (Shape) k.getShape();
+
+      KeyFrameModel newKeyFrame;
+      switch (s.getType()) {
+        case "Rectangle":
+          newKeyFrame = new KeyFrame(k.getTime(), new Rectangle(new Shape.ShapeBuilder()
+                  .setKey(s.getKey()).setX(s.x).setY(s.y).setWidth(s.width).setHeight(s.height)
+                  .setRed(s.red).setGreen(s.green).setBlue(s.blue).setTheta(theta).build()));
+          break;
+        case "Ellipse":
+          newKeyFrame = new KeyFrame(k.getTime(), new Ellipse(new Shape.ShapeBuilder()
+                  .setKey(s.getKey()).setX(s.x).setY(s.y).setWidth(s.width).setHeight(s.height)
+                  .setRed(s.red).setGreen(s.green).setBlue(s.blue).setTheta(theta).build()));
+          break;
+        default:
+          throw new IllegalArgumentException("Unsupported shape type.");
+      }
+
+      l.remove(k);
+      l.add(newKeyFrame);
+
+      this.keyFrames.replace(this.getShape(name), new ArrayList<>(l));
+      return this;
+    }
 
     /**
      * returns true if the given key is equal to a key in a shape.
@@ -157,6 +193,22 @@ public final class Animation implements AnimationModel {
     }
 
     /**
+     * Returns true if the shape has a key frame as the same time as that given.
+     *
+     * @param name the name of the shape
+     * @param time the time of the key frame
+     * @return true if the shape has the key frame
+     */
+    private boolean hasKeyFrame(String name, int time) {
+      for (KeyFrameModel k : this.keyFrames.get(this.getShape(name))) {
+        if (k.getTime() == time) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    /**
      * Returns the shape corresponding to the key.
      *
      * @param key the given key
@@ -167,6 +219,23 @@ public final class Animation implements AnimationModel {
       for (ShapeModel s : this.keyFrames.keySet()) {
         if (s.getKey().equals(key)) {
           return s;
+        }
+      }
+      throw new IllegalArgumentException("key doesn't exist");
+    }
+
+    /**
+     * Returns the key frame with the given name and time, if one exists.
+     *
+     * @param name the name of the shape
+     * @param time the time of the key frame
+     * @return the key frame
+     * @throws IllegalArgumentException if the key frame doesn't exist
+     */
+    private KeyFrameModel getKeyFrame(String name, int time) {
+      for (KeyFrameModel k : this.keyFrames.get(this.getShape(name))) {
+        if (k.getTime() == time) {
+          return k;
         }
       }
       throw new IllegalArgumentException("key doesn't exist");
@@ -355,7 +424,7 @@ public final class Animation implements AnimationModel {
         KeyFrameModel f1 = frames.get(i);
         KeyFrameModel f2 = frames.get(i + 1);
 
-        if (time >= f1.getTime() && time < f2.getTime()) {
+        if (time >= f1.getTime() && time <= f2.getTime()) {
           Motion motion = new Motion(f1, f2);
           newShape = motion.getShape(shape, time);
         }

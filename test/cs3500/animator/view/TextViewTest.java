@@ -73,21 +73,21 @@ public class TextViewTest {
     TextView view = new TextView(model, ap);
 
     view.makeVisible();
-    assertEquals("Shape Oh hi there grader Rectangle\n"
-            + "motion Oh hi there grader 0.0 100.0 100.0 10.0 10.0 0.0 0.0 0.0 10.0 100.0"
-            + " 100.0 10.0 10.0 0.0 0.0 0.0\n"
-            + "motion Oh hi there grader 10.0 100.0 100.0 10.0 10.0 0.0 0.0 0.0 30.0 100.0"
-            + " 100.0 1.0 20.0 0.0 0.0 0.0\n"
-            + "\n"
-            + "Shape Oh hi there grader2 Ellipse\n"
-            + "motion Oh hi there grader2 0.0 50.0 50.0 5.0 5.0 255.0 255.0 255.0 10.0 50.0"
-            + " 50.0 5.0 5.0 255.0 255.0 255.0\n"
-            + "motion Oh hi there grader2 10.0 50.0 50.0 5.0 5.0 255.0 255.0 255.0 12.0 50.0"
-            + " 50.0 5.0 5.0 255.0 255.0 255.0\n"
-            + "\n"
-            + "Shape Default Rectangle\n"
-            + "motion Default 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 20.0 20.0 40.0 0.0 0.0 0.0 0.0"
-            + " 0.0", ap.toString());
+    assertEquals("Shape Oh hi there grader Rectangle\n"  
+          + "motion Oh hi there grader 0.0 100.0 100.0 10.0 10.0 0.0 0.0 0.0 0.0 10.0 100.0"  
+          + " 100.0 10.0 10.0 0.0 0.0 0.0 0.0\n"  
+          + "motion Oh hi there grader 10.0 100.0 100.0 10.0 10.0 0.0 0.0 0.0 0.0 30.0 100.0"  
+          + " 100.0 1.0 20.0 0.0 0.0 0.0 0.0\n"  
+          + "\n"  
+          + "Shape Oh hi there grader2 Ellipse\n"  
+          + "motion Oh hi there grader2 0.0 50.0 50.0 5.0 5.0 255.0 255.0 255.0 0.0 10.0 50.0"  
+          + " 50.0 5.0 5.0 255.0 255.0 255.0 0.0\n"  
+          + "motion Oh hi there grader2 10.0 50.0 50.0 5.0 5.0 255.0 255.0 255.0 0.0 12.0 50.0"  
+          + " 50.0 5.0 5.0 255.0 255.0 255.0 0.0\n"  
+          + "\n"  
+          + "Shape Default Rectangle\n"  
+          + "motion Default 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 20.0 20.0 40.0 0.0 0.0 0.0 0.0"  
+          + " 0.0 0.0", ap.toString());
   }
 
   @Rule

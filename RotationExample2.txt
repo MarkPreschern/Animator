@@ -1,0 +1,4 @@
+canvas 0 0 800 800
+shape s1 ellipse
+motion s1 0 380 370 40 50 33 94 248 100 480 270 100 20 255 10 100
+rotation s1 100 -720

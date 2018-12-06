@@ -138,7 +138,6 @@ public class SVGView implements View {
                 "x", initialTime, duration,
                 initialShape.getPointTopLeft().x - this.model.getCanvas().getX(),
                 finalShape.getPointTopLeft().x - this.model.getCanvas().getX())).append("\n");
-
         sb.append(String.format("<animate attributeName=\"%1s\" attributeType=\"XML\""
                         + " begin=\"%2fs\" dur=\"%3fs\" fill=\"freeze\" from=\"%4f\" to=\"%5f\" />",
                 "y", initialTime, duration,
@@ -161,7 +160,6 @@ public class SVGView implements View {
                         + (initialShape.getDimensions().x / 2),
                 finalShape.getPointTopLeft().x - this.model.getCanvas().getX()
                         + (finalShape.getDimensions().x / 2))).append("\n");
-
         sb.append(String.format("<animate attributeName=\"%1s\" attributeType=\"XML\""
                         + " begin=\"%2fs\" dur=\"%3fs\" fill=\"freeze\" from=\"%4f\" to=\"%5f\" />",
                 "cy", initialTime, duration,
@@ -189,6 +187,17 @@ public class SVGView implements View {
             initialShape.getColor().getBlue(), finalShape.getColor().getRed(),
             finalShape.getColor().getGreen(), finalShape.getColor().getBlue(),
             initialTime, duration)).append("\n");
+
+    sb.append(String.format("<animateTransform attributeName=\"transform\" attributeType=\"XML\""
+                    + " type=\"rotate\" from=\"%1f %2f %3f\" to=\"%4f %5f %6f\" dur=\"%7fs\""
+                    + " repeatCount=\"0\"/>",
+            initialShape.getTheta(),
+            initialShape.getPointTopLeft().x + initialShape.getDimensions().x / 2,
+            initialShape.getPointTopLeft().y + initialShape.getDimensions().y / 2,
+            finalShape.getTheta(),
+            finalShape.getPointTopLeft().x + finalShape.getDimensions().x / 2,
+            finalShape.getPointTopLeft().y + finalShape.getDimensions().y / 2,
+            duration)).append("\n");
 
     return sb.toString();
   }

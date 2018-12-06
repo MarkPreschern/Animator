@@ -24,6 +24,9 @@ public abstract class Shape implements ShapeModel {
   protected double green;
   protected double blue;
 
+  //represents the angle of the shape
+  protected double theta;
+
   /**
    * Constructs a custom shape using a shape builder.
    *
@@ -43,6 +46,7 @@ public abstract class Shape implements ShapeModel {
     this.red = b.red;
     this.green = b.green;
     this.blue = b.blue;
+    this.theta = b.theta;
   }
 
   /**
@@ -64,6 +68,7 @@ public abstract class Shape implements ShapeModel {
     this.red = s.red;
     this.green = s.green;
     this.blue = s.blue;
+    this.theta = s.theta;
   }
 
   /**
@@ -87,6 +92,9 @@ public abstract class Shape implements ShapeModel {
     private double green;
     private double blue;
 
+    //represents the angle of the shape
+    private double theta;
+
     /**
      * Constructs a default shape builder.
      */
@@ -99,10 +107,11 @@ public abstract class Shape implements ShapeModel {
       this.red = 0;
       this.green = 0;
       this.blue = 0;
+      this.theta = 0;
     }
 
     /**
-     * sets key and returns a new instance of the builder.
+     * Sets key and returns a new instance of the builder.
      *
      * @param key new key
      * @return an instance of the shape builder
@@ -117,7 +126,7 @@ public abstract class Shape implements ShapeModel {
     }
 
     /**
-     * sets x and returns a new instance of the builder.
+     * Sets x and returns a new instance of the builder.
      *
      * @param x new x
      * @return an instance of the shape builder
@@ -128,7 +137,7 @@ public abstract class Shape implements ShapeModel {
     }
 
     /**
-     * sets y and returns a new instance of the builder.
+     * Sets y and returns a new instance of the builder.
      *
      * @param y new y
      * @return an instance of the shape builder
@@ -139,7 +148,7 @@ public abstract class Shape implements ShapeModel {
     }
 
     /**
-     * sets width and returns a new instance of the builder.
+     * Sets width and returns a new instance of the builder.
      *
      * @param width new width
      * @return an instance of the shape builder
@@ -154,7 +163,7 @@ public abstract class Shape implements ShapeModel {
     }
 
     /**
-     * sets height and returns a new instance of the builder.
+     * Sets height and returns a new instance of the builder.
      *
      * @param height new height
      * @return an instance of the shape builder
@@ -169,7 +178,7 @@ public abstract class Shape implements ShapeModel {
     }
 
     /**
-     * sets red and returns a new instance of the builder.
+     * Sets red and returns a new instance of the builder.
      *
      * @param red new red
      * @return an instance of the shape builder
@@ -184,7 +193,7 @@ public abstract class Shape implements ShapeModel {
     }
 
     /**
-     * sets green and returns a new instance of the builder.
+     * Sets green and returns a new instance of the builder.
      *
      * @param green new green
      * @return an instance of the shape builder
@@ -199,7 +208,7 @@ public abstract class Shape implements ShapeModel {
     }
 
     /**
-     * sets blue and returns a new instance of the builder.
+     * Sets blue and returns a new instance of the builder.
      *
      * @param blue new blue
      * @return an instance of the shape builder
@@ -210,6 +219,17 @@ public abstract class Shape implements ShapeModel {
         throw new IllegalArgumentException("Invalid blue color, not within [0,255].");
       }
       this.blue = blue;
+      return this;
+    }
+
+    /**
+     * Sets the value of theta and returns a new instance of the builder.
+     *
+     * @param theta new theta
+     * @return an instance of the builder
+     */
+    public ShapeBuilder setTheta(double theta) {
+      this.theta = theta;
       return this;
     }
 
@@ -243,11 +263,15 @@ public abstract class Shape implements ShapeModel {
     return new Color((int) this.red, (int) this.green, (int) this.blue);
   }
 
+  @Override
+  public double getTheta() {
+    return this.theta;
+  }
 
   @Override
   public String toString() {
     return this.x + " " + this.y + " " + this.width + " " + this.height + " " + this.red + " "
-            + this.green + " " + this.blue;
+            + this.green + " " + this.blue + " " + this.theta;
   }
 
   @Override

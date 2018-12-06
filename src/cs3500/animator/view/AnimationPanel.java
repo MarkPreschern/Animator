@@ -64,6 +64,14 @@ public class AnimationPanel extends JPanel implements ActionListener {
     Graphics2D g2d = (Graphics2D) g;
     for (ShapeModel s : shapes) {
       g2d.setColor(s.getColor());
+
+      //applies the shape's rotation
+      g2d.translate(s.getPointTopLeft().x + s.getDimensions().x / 2,
+              s.getPointTopLeft().y + s.getDimensions().y / 2);
+      g2d.rotate(Math.toRadians(s.getTheta()));
+      g2d.translate(-s.getPointTopLeft().x - s.getDimensions().x / 2,
+              -s.getPointTopLeft().y - s.getDimensions().y / 2);
+
       switch (s.getType()) {
         case "Rectangle":
           g2d.fill(new Rectangle2D.Double(s.getPointTopLeft().x - this.model.getCanvas().getX(),

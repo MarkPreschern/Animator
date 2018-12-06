@@ -52,18 +52,14 @@ public class Motion implements MotionModel {
     shape1.x = initialShape.x + ((finalShape.x - initialShape.x) * difference);
     shape1.y = initialShape.y + ((finalShape.y - initialShape.y) * difference);
 
-    shape1.width = initialShape.width + ((finalShape.width - initialShape.width)
-            * difference);
-    shape1.height = initialShape.height + ((finalShape.height - initialShape.height)
-            * difference);
+    shape1.width = initialShape.width + ((finalShape.width - initialShape.width) * difference);
+    shape1.height = initialShape.height + ((finalShape.height - initialShape.height) * difference);
 
-    shape1.red = initialShape.red + ((finalShape.red - initialShape.red)
-            * difference);
-    shape1.green = initialShape.green + ((finalShape.green - initialShape.green)
-            * difference);
-    shape1.blue = initialShape.blue + ((finalShape.blue - initialShape.blue)
-            * difference);
+    shape1.red = initialShape.red + ((finalShape.red - initialShape.red) * difference);
+    shape1.green = initialShape.green + ((finalShape.green - initialShape.green) * difference);
+    shape1.blue = initialShape.blue + ((finalShape.blue - initialShape.blue) * difference);
 
+    shape1.theta = initialShape.theta + ((finalShape.theta - initialShape.theta) * difference);
     return shape;
   }
 

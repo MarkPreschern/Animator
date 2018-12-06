@@ -38,6 +38,13 @@ public interface ShapeModel {
   Color getColor();
 
   /**
+   * gets the theta in degrees with respect to rotation of the shape.
+   *
+   * @return theta
+   */
+  double getTheta();
+
+  /**
    * gets a string representation of the shape by it's type (rectangle, ellipse, etc.. ) and
    * fields.
    *

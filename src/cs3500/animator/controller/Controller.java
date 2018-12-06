@@ -108,10 +108,10 @@ public class Controller implements ControllerModel {
    * Starts the animation from time equals zero, in the forward direction of animation.
    */
   private void restart() {
+    this.setTime(0);
     this.state = State.RUN;
     this.timer.start();
     this.applyAnimationUpdateToView("");
-    this.setTime(0);
     this.view.displayMessage("View is restarting");
   }
 

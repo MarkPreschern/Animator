@@ -50,6 +50,9 @@ public class AnimationReader {
         case "motion":
           readMotion(s, builder);
           break;
+        case "rotation":
+          readRotation(s, builder);
+          break;
         default:
           throw new IllegalStateException("Unexpected keyword: " + word + s.nextLine());
       }
@@ -105,6 +108,40 @@ public class AnimationReader {
     builder.addMotion(name,
             vals[0], vals[1], vals[2], vals[3], vals[4], vals[5], vals[6], vals[7],
             vals[8], vals[9], vals[10], vals[11], vals[12], vals[13], vals[14], vals[15]);
+  }
+
+  private static <Doc> void readRotation(Scanner s, AnimationBuilder<Doc> builder) {
+    String name;
+    int time;
+    double theta;
+
+    if (s.hasNext()) {
+      name = s.next();
+    } else {
+      throw new IllegalStateException("Rotation: Expected a name, but no more input available");
+    }
+
+    if (s.hasNext()) {
+      try {
+        time = Integer.parseInt(s.next());
+      } catch (NumberFormatException e) {
+        throw new IllegalStateException("Rotation: Expected a time, but not given an integer");
+      }
+    } else {
+      throw new IllegalStateException("Rotation: Expected a time, but no more input available");
+    }
+
+    if (s.hasNext()) {
+      try {
+        theta = Double.parseDouble(s.next());
+      } catch (NumberFormatException e) {
+        throw new IllegalStateException("Rotation: Expected a theta, but not given a double");
+      }
+    } else {
+      throw new IllegalStateException("Rotation: Expected a theta, but no more input available");
+    }
+
+    builder.rotateKeyFrame(name, time, theta);
   }
 
   private static int getInt(Scanner s, String label, String fieldName) {

@@ -5,10 +5,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.HashMap;
 
 import javax.swing.JList;
 import javax.swing.JSlider;
