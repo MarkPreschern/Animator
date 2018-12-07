@@ -174,7 +174,8 @@ public class AnimationTest {
 
     //asserts what the shapes are after the tick()
     assertEquals("4.999999999999999 4.999999999999999 0.4999999999999999"
-                    + " 0.4999999999999999 25.499999999999993 25.499999999999993 25.499999999999993 0.0",
+                    + " 0.4999999999999999 25.499999999999993 25.499999999999993 25.499999999999993"
+                    + " 0.0",
             this.am2.getShapes(1).get(0).toString());
   }
 
@@ -203,6 +204,49 @@ public class AnimationTest {
             + " 50.0 5.0 5.0 255.0 255.0 255.0 0.0\n"
             + "\n"
             + "Shape Default Rectangle", this.am2.getStringRepresentation());
+  }
+
+  @Test
+  public void testAddShapeToLayer() {
+    this.init();
+
+    this.am2.addShapeToLayer("Oh hi there grader", 10);
+    assertEquals(10, this.am2.getShapes().get(this.am2.getShapes().size() - 1).getLayer());
+
+    this.am2.addShapeToLayer("Oh hi there grader2", 5);
+    assertEquals(5, this.am2.getShapes().get(1).getLayer());
+
+    this.am2.addShapeToLayer("Oh hi there grader2", 0);
+    assertEquals(0, this.am2.getShapes().get(1).getLayer());
+  }
+
+  @Test
+  public void testDeleteLayer() {
+    this.init();
+
+    assertEquals(3, this.am2.getShapes().size());
+
+    this.am2.addShapeToLayer("Oh hi there grader", 10);
+    this.am2.deleteLayer(10);
+    assertEquals(2, this.am2.getShapes().size());
+
+    this.am2.deleteLayer(0);
+    assertEquals(0, this.am2.getShapes().size());
+  }
+
+  @Test
+  public void testReorderLayer() {
+    this.init();
+
+    this.am2.reorderLayer(0, 10);
+    for (ShapeModel s : this.am2.getShapes()) {
+      assertEquals(10, s.getLayer());
+    }
+
+    this.am2.reorderLayer(10, 5);
+    for (ShapeModel s : this.am2.getShapes()) {
+      assertEquals(5, s.getLayer());
+    }
   }
 
   @Rule
@@ -369,6 +413,38 @@ public class AnimationTest {
     thrown.expectMessage("Key frame at time 0.0 already exists.");
     this.init();
     this.am2.addKeyFrame("Oh hi there grader", this.am2.getKeyFrames().get(0));
+  }
+
+  @Test
+  public void testAddShapeToLayerNullName() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("Shape name can't be null.");
+    this.init();
+    this.am2.addShapeToLayer(null, 4);
+  }
+
+  @Test
+  public void testAddShapeToLayerInvalidName() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("Shape doesn't exist.");
+    this.init();
+    this.am2.addShapeToLayer("invalid name", 4);
+  }
+
+  @Test
+  public void testAddShapeToLayerNegativeLayerValue() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("Layer can't be negative.");
+    this.init();
+    this.am2.addShapeToLayer("Oh hi there grader", -1);
+  }
+
+  @Test
+  public void testReorderLayerNegativeValues() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("Layer's can't be negative.");
+    this.init();
+    this.am2.reorderLayer(-6, -1);
   }
 
 }

@@ -74,6 +74,9 @@ public class ControllerTest {
     ActionEvent e14 = new ActionEvent("", 1, "Modify Selected Key Frame");
     ActionEvent e15 = new ActionEvent("", 1, "Undo Edit");
     ActionEvent e16 = new ActionEvent("", 1, "Redo Edit");
+    ActionEvent e17 = new ActionEvent("", 1, "Add Shape To Layer");
+    ActionEvent e18 = new ActionEvent("", 1, "Delete Layer");
+    ActionEvent e19 = new ActionEvent("", 1, "Reorder Layer");
 
 
     this.c.actionPerformed(e1);
@@ -126,6 +129,18 @@ public class ControllerTest {
 
     this.c.actionPerformed(e16);
     assertEquals("No redo history", ve.getCurrentMessage());
+
+    //this.c.actionPerformed(e17);
+    //assertEquals("null", ve.getCurrentMessage());
+    //^^ Popup menu corresponding to the given command comes up
+
+    //this.c.actionPerformed(e18);
+    //assertEquals("null", ve.getCurrentMessage());
+    //^^ Popup menu corresponding to the given command comes up
+
+    //this.c.actionPerformed(e19);
+    //assertEquals("null", ve.getCurrentMessage());
+    //^^ Popup menu corresponding to the given command comes up
   }
 
   @Test

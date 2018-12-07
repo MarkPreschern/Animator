@@ -80,6 +80,11 @@ public class VisualViewEditable extends JFrame implements ViewEditable {
   private JButton undo;
   private JButton redo;
 
+  private JPanel layerPanel;
+  private JButton addShapeToLayer;
+  private JButton deleteLayer;
+  private JButton reorderLayer;
+
   /**
    * Constructs an enhanced view using the given basic visual view.
    *
@@ -127,6 +132,7 @@ public class VisualViewEditable extends JFrame implements ViewEditable {
     this.setModelChangesPanel();
     this.setFrameValuesPanel();
     this.setUndoRedoPanel();
+    this.setLayerPanel();
 
     this.userInterface.add(this.messageToUser);
     this.userInterface.add(this.time);
@@ -134,6 +140,7 @@ public class VisualViewEditable extends JFrame implements ViewEditable {
     this.userInterface.add(this.lists);
     this.userInterface.add(this.modelChanges);
     this.userInterface.add(this.frameValues);
+    this.userInterface.add(this.layerPanel);
     this.userInterface.add(this.timeSlider);
     this.userInterface.add(saveAndLoadPanel);
     this.userInterface.add(this.undoRedoPanel);
@@ -266,6 +273,9 @@ public class VisualViewEditable extends JFrame implements ViewEditable {
     JPanel frameValuesTop = new JPanel();
     frameValuesTop.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+    JPanel frameValuesMiddle = new JPanel();
+    frameValuesMiddle.setAlignmentX(Component.CENTER_ALIGNMENT);
+
     JPanel frameValuesBottom = new JPanel();
     frameValuesBottom.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -280,8 +290,10 @@ public class VisualViewEditable extends JFrame implements ViewEditable {
     frameAreas.add(new JTextArea("Green"));
     frameAreas.add(new JTextArea("Blue"));
     frameAreas.add(new JTextArea("Time"));
+    frameAreas.add(new JTextArea("Theta"));
+    frameAreas.add(new JTextArea("Layer"));
 
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < 10; i++) {
       this.frameFields.add(new JTextField(3));
     }
 
@@ -289,6 +301,9 @@ public class VisualViewEditable extends JFrame implements ViewEditable {
       if (i < 4) {
         frameValuesTop.add(frameAreas.get(i));
         frameValuesTop.add(this.frameFields.get(i));
+      } else if (i < 8) {
+        frameValuesMiddle.add(frameAreas.get(i));
+        frameValuesMiddle.add(this.frameFields.get(i));
       } else {
         frameValuesBottom.add(frameAreas.get(i));
         frameValuesBottom.add(this.frameFields.get(i));
@@ -300,11 +315,12 @@ public class VisualViewEditable extends JFrame implements ViewEditable {
 
     this.frameValues.add(this.modifyFrame);
     this.frameValues.add(frameValuesTop);
+    this.frameValues.add(frameValuesMiddle);
     this.frameValues.add(frameValuesBottom);
   }
 
   /**
-   * Initializes the frame values panel and it's sub JComponents.
+   * Initializes the undo and redo buttons on a panel.
    */
   private void setUndoRedoPanel() {
     this.undoRedoPanel = new JPanel();
@@ -319,6 +335,38 @@ public class VisualViewEditable extends JFrame implements ViewEditable {
 
     this.undoRedoPanel.add(this.undo);
     this.undoRedoPanel.add(this.redo);
+  }
+
+  /**
+   * Initializes the layer buttons on a panel.
+   */
+  private void setLayerPanel() {
+    this.layerPanel = new JPanel();
+    this.layerPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+    this.layerPanel.setLayout(new BoxLayout(this.layerPanel, BoxLayout.Y_AXIS));
+    this.layerPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+
+    JPanel p1 = new JPanel();
+    p1.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+    JPanel p2 = new JPanel();
+    p2.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+    this.addShapeToLayer = new JButton("Add Shape To Layer");
+    this.addShapeToLayer.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+    this.deleteLayer = new JButton("Delete Layer");
+    this.deleteLayer.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+    this.reorderLayer = new JButton("Reorder Layer");
+    this.reorderLayer.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+    p1.add(this.addShapeToLayer);
+    p2.add(this.deleteLayer);
+    p2.add(this.reorderLayer);
+
+    this.layerPanel.add(p1);
+    this.layerPanel.add(p2);
   }
 
   @Override
@@ -403,6 +451,10 @@ public class VisualViewEditable extends JFrame implements ViewEditable {
 
     this.undo.addActionListener(listener);
     this.redo.addActionListener(listener);
+
+    this.addShapeToLayer.addActionListener(listener);
+    this.deleteLayer.addActionListener(listener);
+    this.reorderLayer.addActionListener(listener);
   }
 
   @Override
@@ -427,6 +479,10 @@ public class VisualViewEditable extends JFrame implements ViewEditable {
       for (KeyFrameModel k : f) {
         listOfFrames.addElement(Integer.toString((int) k.getTime()));
       }
+
+      ShapeModel clickedShape = new ArrayList<>(this.animationPanel.model
+              .getShapeKeyFrameRepresentation().keySet()).get(index);
+      this.frameFields.get(9).setText(Integer.toString((int) clickedShape.getLayer()));
 
       this.userInterface.repaint();
     }
@@ -453,6 +509,7 @@ public class VisualViewEditable extends JFrame implements ViewEditable {
       this.frameFields.get(5).setText(Integer.toString(clicked.getShape().getColor().getGreen()));
       this.frameFields.get(6).setText(Integer.toString(clicked.getShape().getColor().getBlue()));
       this.frameFields.get(7).setText(Integer.toString((int) clicked.getTime()));
+      this.frameFields.get(8).setText(Integer.toString((int) clicked.getShape().getTheta()));
 
       this.userInterface.repaint();
     }
@@ -488,7 +545,7 @@ public class VisualViewEditable extends JFrame implements ViewEditable {
       int g = Integer.parseInt(this.frameFields.get(5).getText());
       int b = Integer.parseInt(this.frameFields.get(6).getText());
       int t = Integer.parseInt(this.frameFields.get(7).getText());
-      return new ArrayList<>(Arrays.asList(t, x, y, w, h, r , g, b));
+      return new ArrayList<>(Arrays.asList(t, x, y, w, h, r, g, b));
     } catch (NumberFormatException e) {
       this.displayMessage("Field doesn't contain an integer");
     } catch (IllegalArgumentException e2) {
@@ -628,7 +685,28 @@ public class VisualViewEditable extends JFrame implements ViewEditable {
             JOptionPane.DEFAULT_OPTION,
             JOptionPane.UNDEFINED_CONDITION, null, null, null);
 
-    return new File(giveName.getText());
+    if (j == -1) {
+      return null;
+    } else {
+      return new File(giveName.getText());
+    }
+  }
+
+  @Override
+  public int getLayerValue() {
+    //displays the popup
+    return Integer.parseInt(JOptionPane.showInputDialog(new JFrame(), "layer:"));
+  }
+
+  @Override
+  public HashMap<Integer, Integer> getLayerValues() {
+    //displays the popup
+    int i1 = Integer.parseInt(JOptionPane.showInputDialog(new JFrame(), "current layer:"));
+    int i2 = Integer.parseInt(JOptionPane.showInputDialog(new JFrame(), "new layer:"));
+
+    HashMap<Integer, Integer> h = new HashMap<>();
+    h.put(i1, i2);
+    return h;
   }
 
   /**

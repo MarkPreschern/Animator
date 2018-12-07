@@ -128,4 +128,18 @@ public interface ViewEditable extends View {
    * @return the file to be loaded
    */
   File loadFile();
+
+  /**
+   * Opens a popup that prompts the user to select a layer value.
+   *
+   * @return the layer value
+   */
+  int getLayerValue();
+
+  /**
+   * Opens a popup that prompts the user to select a current and new layer value.
+   *
+   * @return the current and new layer values
+   */
+  HashMap<Integer, Integer> getLayerValues();
 }

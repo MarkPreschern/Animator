@@ -27,6 +27,9 @@ public abstract class Shape implements ShapeModel {
   //represents the angle of the shape
   protected double theta;
 
+  //represents the layer of the shape, increasing from 0
+  protected int layer;
+
   /**
    * Constructs a custom shape using a shape builder.
    *
@@ -47,6 +50,7 @@ public abstract class Shape implements ShapeModel {
     this.green = b.green;
     this.blue = b.blue;
     this.theta = b.theta;
+    this.layer = b.layer;
   }
 
   /**
@@ -69,6 +73,7 @@ public abstract class Shape implements ShapeModel {
     this.green = s.green;
     this.blue = s.blue;
     this.theta = s.theta;
+    this.layer = s.layer;
   }
 
   /**
@@ -95,6 +100,9 @@ public abstract class Shape implements ShapeModel {
     //represents the angle of the shape
     private double theta;
 
+    //represents the layer of the shape, increasing from 0
+    private int layer;
+
     /**
      * Constructs a default shape builder.
      */
@@ -108,6 +116,7 @@ public abstract class Shape implements ShapeModel {
       this.green = 0;
       this.blue = 0;
       this.theta = 0;
+      this.layer = 0;
     }
 
     /**
@@ -234,6 +243,21 @@ public abstract class Shape implements ShapeModel {
     }
 
     /**
+     * Sets the value of layer and returns a new instance of the builder.
+     *
+     * @param layer new layer
+     * @return an instance of the builder
+     * @throws IllegalArgumentException if the layer is negative
+     */
+    public ShapeBuilder setLayer(int layer) {
+      if (layer < 0) {
+        throw new IllegalArgumentException("Can't have a negative layer.");
+      }
+      this.layer = layer;
+      return this;
+    }
+
+    /**
      * Returns an instance of the shape builder.
      *
      * @return an instance of the shape builder.
@@ -266,6 +290,11 @@ public abstract class Shape implements ShapeModel {
   @Override
   public double getTheta() {
     return this.theta;
+  }
+
+  @Override
+  public int getLayer() {
+    return this.layer;
   }
 
   @Override

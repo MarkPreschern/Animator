@@ -135,4 +135,30 @@ public interface AnimationModel {
    * @return a new instance of this model
    */
   AnimationModel makeCopy();
+
+  /**
+   * Adds a shape that currently exists to the specified layer.
+   *
+   * @param name  the name of the shape
+   * @param layer the layer specified
+   * @throws IllegalArgumentException if the name is negative
+   * @throws IllegalArgumentException if the name isn't contained in the current shapes
+   * @throws IllegalArgumentException if the layer is negative
+   */
+  void addShapeToLayer(String name, int layer);
+
+  /**
+   * Deletes the layer specified and all shapes contained on it.
+   */
+  void deleteLayer(int layer);
+
+  /**
+   * Changes the layer to the new layer, effectively changing all shapes initial layer to the new
+   * layer as well.
+   *
+   * @param layer    the initial layer
+   * @param newLayer the new layer
+   * @throws IllegalArgumentException if either layer is negative
+   */
+  void reorderLayer(int layer, int newLayer);
 }

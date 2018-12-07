@@ -82,4 +82,17 @@ public interface AnimationBuilder<Doc> {
    * @return This {@link AnimationBuilder}
    */
   AnimationBuilder<Doc> rotateKeyFrame(String name, int t, double theta);
+
+  /**
+   * Adds a new shape to the growing document, with a specified layer.
+   *
+   * @param name  The unique name of the shape to be added. No shape with this name should already
+   *              exist.
+   * @param type  The type of shape (e.g. "ellipse", "rectangle") to be added. The set of supported
+   *              shapes is unspecified, but should include "ellipse" and "rectangle" as a minimum.
+   * @param layer the layer in which the shape will be viewed, such that 0 is the base layer and any
+   *              greater layers are displayed in front.
+   * @return This {@link AnimationBuilder}
+   */
+  AnimationBuilder<Doc> declareShapeWithLayer(String name, String type, int layer);
 }

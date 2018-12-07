@@ -45,6 +45,13 @@ public interface ShapeModel {
   double getTheta();
 
   /**
+   * gets the layer of the shape.
+   *
+   * @return the layer
+   */
+  int getLayer();
+
+  /**
    * gets a string representation of the shape by it's type (rectangle, ellipse, etc.. ) and
    * fields.
    *

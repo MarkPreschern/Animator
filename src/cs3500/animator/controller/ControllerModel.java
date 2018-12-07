@@ -9,18 +9,19 @@ import cs3500.animator.model.AnimationModel;
 import cs3500.animator.view.View;
 
 /**
- * Represents the model for a controller, which handles input and distributes responsibility to it's
- * model and view to effectively represent an animation.
+ * <p>Represents the model for a controller, which handles input and distributes responsibility to
+ * it's model and view to effectively represent an animation.</p>
  *
- * Listener's listen for the following:
+ * <p>Listener's listen for the following:</p>
  *
- * ActionListener: 'Run', 'Pause', 'Rewind', 'Restart', 'Loop', 'Set Speed:', 'Add Key Frame',
+ * <p>ActionListener: 'Run', 'Pause', 'Rewind', 'Restart', 'Loop', 'Set Speed:', 'Add Key Frame',
  * 'Remove Key Frame', 'Add Shape', 'Remove Shape', 'Modify Selected Key Frame', 'Save Animation',
- * 'Load File', 'Undo Edit', 'Redo Edit'.
+ * 'Load File', 'Undo Edit', 'Redo Edit'.</p>
  *
- * ListSelectionListener: 'shape list', 'frame list'.
+ * <p>ListSelectionListener: 'shape list', 'frame list'.</p>
  *
- * ChangeListener: doesn't listen for a specific command, as it's only listening to the JSlider
+ * <p>ChangeListener: doesn't listen for a specific command, as it's only listening to the
+ * JSlider</p>
  */
 public interface ControllerModel extends ActionListener, ListSelectionListener, ChangeListener {
 

@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 import cs3500.animator.controller.EndOperation;
 import cs3500.animator.controller.State;
 import cs3500.animator.model.ImmutableModel;
-import cs3500.animator.model.Shape;
 import cs3500.animator.model.ShapeModel;
 
 /**

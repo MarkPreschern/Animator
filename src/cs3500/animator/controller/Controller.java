@@ -51,12 +51,6 @@ public class Controller implements ControllerModel {
   private Stack<AnimationModel> history = new Stack<>();
   private Stack<AnimationModel> future = new Stack<>();
 
-  /**
-   * Instantiates a default controller.
-   */
-  public Controller() {
-  }
-
   @Override
   public void control(AnimationModel model, View view, int ticksPerSecond) {
     if (model == null || view == null) {
@@ -254,7 +248,7 @@ public class Controller implements ControllerModel {
     } else {
       this.view.setTime(time);
       this.view.displayMessage("Time has been changed to " + time);
-      
+
       this.state = State.PAUSE;
       this.timer.stop();
       this.view.applyAnimationUpdate(this.ticksPerSecond, this.state, this.endOperation);
@@ -478,6 +472,46 @@ public class Controller implements ControllerModel {
         break;
       case "Redo Edit":
         this.redo();
+        break;
+      case "Add Shape To Layer":
+        this.timer.stop();
+        try {
+          int value = this.view.getLayerValue();
+          ShapeModel shape = this.view.getSelectedShape();
+          if (shape == null) {
+            this.model.addShapeToLayer(null, value);
+          } else {
+            this.model.addShapeToLayer(shape.getKey(), value);
+          }
+          this.applyModelUpdateToView("Shape has been added to layer " + value);
+          this.view.updateLists();
+        } catch (IllegalArgumentException e3) {
+          this.view.displayMessage(e3.getMessage());
+        }
+        break;
+      case "Delete Layer":
+        this.timer.stop();
+        try {
+          int value = this.view.getLayerValue();
+          this.model.deleteLayer(value);
+          this.applyModelUpdateToView("layer " + value + " has been deleted");
+          this.view.updateLists();
+        } catch (IllegalArgumentException e4) {
+          this.view.displayMessage(e4.getMessage());
+        }
+        break;
+      case "Reorder Layer":
+        this.timer.stop();
+        Map.Entry<Integer, Integer> l = this.view.getLayerValues().entrySet().iterator().next();
+        Integer i1 = l.getKey();
+        Integer i2 = l.getValue();
+        try {
+          this.model.reorderLayer(i1, i2);
+          this.applyModelUpdateToView("Layer " + i1 + " has been reordered to " + i2);
+          this.view.updateLists();
+        } catch (IllegalArgumentException e5) {
+          this.view.displayMessage(e5.getMessage());
+        }
         break;
       default:
         this.view.displayMessage("Unknown action event.");

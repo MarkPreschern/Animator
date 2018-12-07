@@ -1,6 +1,7 @@
 package cs3500.animator.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -43,6 +44,7 @@ public final class Animation implements AnimationModel {
     this.canvas = canvas;
 
     this.updateFrames();
+    this.updateLayers();
   }
 
   /**
@@ -177,6 +179,30 @@ public final class Animation implements AnimationModel {
       return this;
     }
 
+    @Override
+    public AnimationBuilder<Animation> declareShapeWithLayer(String name, String type, int layer) {
+      if (name == null || type == null) {
+        throw new IllegalArgumentException("Shape name and type can't be null.");
+      } else if (this.containsKey(name)) {
+        throw new IllegalArgumentException("Shape's key already exists, try a different key.");
+      }
+
+      Shape shape;
+      switch (type) {
+        case "rectangle":
+          shape = new Rectangle(new Shape.ShapeBuilder().setKey(name).setLayer(layer).build());
+          break;
+        case "ellipse":
+          shape = new Ellipse(new Shape.ShapeBuilder().setKey(name).setLayer(layer).build());
+          break;
+        default:
+          throw new IllegalArgumentException("Unsupported shape type.");
+      }
+
+      this.keyFrames.put(shape, new ArrayList<>());
+      return this;
+    }
+
     /**
      * returns true if the given key is equal to a key in a shape.
      *
@@ -246,7 +272,7 @@ public final class Animation implements AnimationModel {
    * Checks for animation consistency among key frames, sorting them by time and removing
    * duplicates.
    */
-  private void updateFrames() throws IllegalArgumentException {
+  private void updateFrames() {
     for (ArrayList<KeyFrameModel> keyFrames : this.keyFrames.values()) {
       keyFrames.sort((o1, o2) -> (int) (o1.getTime() - o2.getTime()));
 
@@ -257,6 +283,20 @@ public final class Animation implements AnimationModel {
         }
       }
     }
+  }
+
+  /**
+   * Sorts keyFrames by their shape's layer from greatest to least.
+   */
+  private void updateLayers() {
+    ArrayList<ShapeModel> sortedKeys = new ArrayList<>(this.keyFrames.keySet());
+    sortedKeys.sort(Comparator.comparingInt(ShapeModel::getLayer));
+
+    LinkedHashMap<ShapeModel, ArrayList<KeyFrameModel>> sortedMap = new LinkedHashMap<>();
+    for (ShapeModel s : sortedKeys) {
+      sortedMap.put(s, this.keyFrames.get(s));
+    }
+    this.keyFrames = new LinkedHashMap<>(sortedMap);
   }
 
   /**
@@ -314,6 +354,7 @@ public final class Animation implements AnimationModel {
       throw new IllegalArgumentException("Shape's key already exists, try a different key.");
     } else {
       this.keyFrames.put(shape, new ArrayList<>());
+      this.updateLayers();
     }
   }
 
@@ -515,5 +556,81 @@ public final class Animation implements AnimationModel {
             this.canvas.getHeight());
 
     return new Animation(rep, c);
+  }
+
+  @Override
+  public void addShapeToLayer(String name, int layer) {
+    if (name == null) {
+      throw new IllegalArgumentException("Shape name can't be null.");
+    } else if (!this.containsKey(name)) {
+      throw new IllegalArgumentException("Shape doesn't exist.");
+    } else if (layer < 0) {
+      throw new IllegalArgumentException("Layer can't be negative.");
+    } else {
+      ShapeModel current = this.getShape(name);
+      ArrayList<KeyFrameModel> frames = this.keyFrames.get(current);
+      this.keyFrames.remove(current);
+
+      Shape newShape;
+      switch (current.getType()) {
+        case "Rectangle":
+          newShape = new Rectangle(new Shape.ShapeBuilder()
+                  .setX(current.getPointTopLeft().x)
+                  .setY(current.getPointTopLeft().y)
+                  .setWidth(current.getDimensions().x)
+                  .setHeight(current.getDimensions().y)
+                  .setRed(current.getColor().getRed())
+                  .setGreen(current.getColor().getGreen())
+                  .setBlue(current.getColor().getBlue())
+                  .setKey(name)
+                  .setLayer(layer)
+                  .build());
+          break;
+        case "Ellipse":
+          newShape = new Ellipse(new Shape.ShapeBuilder()
+                  .setX(current.getPointTopLeft().x)
+                  .setY(current.getPointTopLeft().y)
+                  .setWidth(current.getDimensions().x)
+                  .setHeight(current.getDimensions().y)
+                  .setRed(current.getColor().getRed())
+                  .setGreen(current.getColor().getGreen())
+                  .setBlue(current.getColor().getBlue())
+                  .setKey(name)
+                  .setLayer(layer)
+                  .build());
+          break;
+        default:
+          throw new IllegalArgumentException("Unsupported shape type.");
+      }
+
+      this.keyFrames.put(newShape, frames);
+      this.updateLayers();
+    }
+  }
+
+  @Override
+  public void deleteLayer(int layer) {
+    ArrayList<ShapeModel> shapes = new ArrayList<>(keyFrames.keySet());
+    for (int i = 0; i < shapes.size(); i++) {
+      ShapeModel s = shapes.get(i);
+      if (s.getLayer() == layer) {
+        this.keyFrames.remove(s);
+      }
+    }
+  }
+
+  @Override
+  public void reorderLayer(int layer, int newLayer) {
+    if (layer < 0 || newLayer < 0) {
+      throw new IllegalArgumentException("Layer's can't be negative.");
+    }
+
+    ArrayList<ShapeModel> shapes = new ArrayList<>(keyFrames.keySet());
+    for (int i = 0; i < shapes.size(); i++) {
+      ShapeModel s = shapes.get(i);
+      if (s.getLayer() == layer) {
+        this.addShapeToLayer(s.getKey(), newLayer);
+      }
+    }
   }
 }

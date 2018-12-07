@@ -86,4 +86,19 @@ public class ImmutableAnimation implements ImmutableModel {
   public AnimationModel makeCopy() {
     return this.model.makeCopy();
   }
+
+  @Override
+  public void addShapeToLayer(String name, int layer) {
+    throw new UnsupportedOperationException("Model is immutable.");
+  }
+
+  @Override
+  public void deleteLayer(int layer) {
+    throw new UnsupportedOperationException("Model is immutable.");
+  }
+
+  @Override
+  public void reorderLayer(int layer, int newLayer) {
+    throw new UnsupportedOperationException("Model is immutable.");
+  }
 }
