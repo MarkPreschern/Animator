@@ -1,10 +1,15 @@
 # Easy Animator
-- Displays simple shapes in text, svg file, and visual format
-- Intuitive user interface allows for editing & manipulation of a visual view during animation
-# To Use
+- Displays custom animations in visual, textual, and svg file format using MVC design
+  pattern and javax.swing
+- Allows for editing, adding, and removing of images with intuitive user interface
+## To Use
 - Find Animator.jar in resources directory
-# Program Arguments
-- Required: '-in "file path"' to display a file. Sample files are provided
-- Required: '-view "type"' where types include 'text', 'svg', 'visual', and 'edit'
-- Optional: '-speed "ticks per second"'
-- Optional: '-out "file path"' to save the animation to a file location
+- From command line, type `java -jar Animator.jar -in <file path> -view <type>`,
+  optionally include program arguments detailed below
+## Program Arguments
+* *Required*
+    - `-in <file path>` to display a file. Sample files are provided in samples directory
+    - `-view <type>` where types include `text`, `svg`, `visual`, and `edit`
+* *Optional*
+    - `-speed <positive integer>` where speed is measured in ticks per second
+    - `-out <file path>` to save the animation to a file location

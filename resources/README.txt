@@ -1,4 +1,4 @@
-Extra Credit Implemented:
+Extra Implementations:
     - Saving the animation to a text or svg file during animation
     - Loading a new file to the animation's user interface during animation
     - Animation can be reversed (animate in the opposite direction with respect to time)
